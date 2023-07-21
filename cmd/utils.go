@@ -11,7 +11,7 @@ import (
 	"github.com/alexeyco/simpletable"
 )
 
-func printTable(changes []sum.Change) {
+func formatTable(changes []sum.Change) string {
 	table := simpletable.New()
 	table.Header = &simpletable.Header{
 		Cells: []*simpletable.Cell{
@@ -30,10 +30,10 @@ func printTable(changes []sum.Change) {
 	}
 
 	table.SetStyle(simpletable.StyleDefault)
-	fmt.Println(table.String())
+	return table.String()
 }
 
-func printJson(changes []sum.Change) {
+func formatJson(changes []sum.Change) string {
 	data, err := JSON.Marshal(changes)
 
 	if err != nil {
@@ -41,7 +41,7 @@ func printJson(changes []sum.Change) {
 	}
 
 	content := string(data)
-	fmt.Println(content)
+	return content
 }
 
 func gitLog(limit int) ([]byte, error) {

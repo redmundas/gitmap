@@ -5,8 +5,8 @@ import (
 )
 
 type Change struct {
-	Count int
-	Path  string
+	Count int    `json:"count"`
+	Path  string `json:"path"`
 }
 
 func HeatMap(lines []string, threshold int, ignoreList []string) []Change {

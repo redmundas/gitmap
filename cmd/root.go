@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"fmt"
 	"gitmap/sum"
 	"log"
 	"sort"
@@ -17,8 +18,8 @@ var ignoreList []string = []string{}
 
 var rootCmd = &cobra.Command{
 	Use:   "gitmap",
-	Short: "gitmap",
-	Long:  "git heat map",
+	Short: "git heat map",
+	Long:  "heat map of git changes per file",
 	Run: func(cmd *cobra.Command, args []string) {
 		data, err := gitLog(limit)
 
@@ -37,11 +38,14 @@ var rootCmd = &cobra.Command{
 			return changes[i].Count < changes[j].Count
 		})
 
+		var output string
 		if json {
-			printJson(changes)
+			output = formatJson(changes)
 		} else {
-			printTable(changes)
+			output = formatTable(changes)
 		}
+
+		fmt.Println(output)
 	},
 }
 
