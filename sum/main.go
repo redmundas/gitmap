@@ -13,7 +13,7 @@ func HeatMap(lines []string, threshold int, ignoreList []string) []Change {
 	heatMap := make(map[string]int)
 
 	for _, line := range lines {
-		if shouldSkip(line, ignoreList) {
+		if line == "" || shouldSkip(line, ignoreList) {
 			continue
 		}
 
