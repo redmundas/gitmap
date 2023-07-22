@@ -1,17 +1,15 @@
-package cmd
+package out
 
 import (
-	JSON "encoding/json"
+	"encoding/json"
 	"fmt"
 	"gitmap/sum"
 	"log"
-	"os"
-	"os/exec"
 
 	"github.com/alexeyco/simpletable"
 )
 
-func formatTable(changes []sum.Change) string {
+func Table(changes []sum.Change) string {
 	table := simpletable.New()
 	table.Header = &simpletable.Header{
 		Cells: []*simpletable.Cell{
@@ -33,8 +31,8 @@ func formatTable(changes []sum.Change) string {
 	return table.String()
 }
 
-func formatJson(changes []sum.Change) string {
-	data, err := JSON.Marshal(changes)
+func Json(changes []sum.Change) string {
+	data, err := json.MarshalIndent(changes, "", "  ")
 
 	if err != nil {
 		log.Fatal(err)
@@ -42,23 +40,4 @@ func formatJson(changes []sum.Change) string {
 
 	content := string(data)
 	return content
-}
-
-func gitLog(limit int) ([]byte, error) {
-	cwd, err := os.Getwd()
-
-	if err != nil {
-		return nil, err
-	}
-
-	args := []string{"--no-pager", "log", "--name-only", "--format="}
-
-	if limit > 0 {
-		args = append(args, fmt.Sprintf("-%d", limit))
-	}
-
-	cmd := exec.Command("git", args...)
-	cmd.Dir = cwd
-
-	return cmd.Output()
 }

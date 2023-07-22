@@ -1,7 +1,7 @@
 package sum
 
 import (
-	"strings"
+	"path/filepath"
 )
 
 type Change struct {
@@ -38,9 +38,10 @@ func HeatMap(lines []string, threshold int, ignoreList []string) []Change {
 	return changes
 }
 
-func shouldSkip(value string, suffixes []string) bool {
-	for _, suffix := range suffixes {
-		if strings.HasSuffix(value, suffix) {
+func shouldSkip(value string, patterns []string) bool {
+	for _, pattern := range patterns {
+		match, _ := filepath.Match(pattern, value)
+		if match {
 			return true
 		}
 	}

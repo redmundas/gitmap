@@ -1,4 +1,4 @@
-package cmd
+package out
 
 import (
 	"gitmap/sum"
@@ -13,7 +13,19 @@ var changes = []sum.Change{
 	{Count: 2, Path: "main.go"},
 }
 
-var table = `
+var _json = `
+[
+  {
+    "count": 1,
+    "path": "README.md"
+  },
+  {
+    "count": 2,
+    "path": "main.go"
+  }
+]
+`
+var _table = `
 +-------+-----------+
 | Count |   Path    |
 +-------+-----------+
@@ -23,11 +35,11 @@ var table = `
 `
 
 func TestFormatJson(t *testing.T) {
-	output := formatJson(changes)
-	assert.Equal(t, "[{\"count\":1,\"path\":\"README.md\"},{\"count\":2,\"path\":\"main.go\"}]", output)
+	output := Json(changes)
+	assert.Equal(t, strings.Trim(_json, "\n"), output)
 }
 
 func TestFormatTable(t *testing.T) {
-	output := formatTable(changes)
-	assert.Equal(t, strings.Trim(table, "\n"), output)
+	output := Table(changes)
+	assert.Equal(t, strings.Trim(_table, "\n"), output)
 }
