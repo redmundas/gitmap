@@ -6,7 +6,6 @@ import (
 	"gitmap/out"
 	"gitmap/sum"
 	"log"
-	"sort"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -31,14 +30,7 @@ var rootCmd = &cobra.Command{
 
 		content := string(data)
 		lines := strings.Split(content, "\n")
-		changes := sum.HeatMap(lines, threshold, ignoreList)
-
-		sort.Slice(changes, func(i, j int) bool {
-			if reverse {
-				return changes[i].Count > changes[j].Count
-			}
-			return changes[i].Count < changes[j].Count
-		})
+		changes := sum.HeatMap(lines, threshold, reverse, ignoreList)
 
 		var output string
 		if json {

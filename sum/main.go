@@ -2,6 +2,7 @@ package sum
 
 import (
 	"path/filepath"
+	"sort"
 )
 
 type Change struct {
@@ -9,7 +10,7 @@ type Change struct {
 	Path  string `json:"path"`
 }
 
-func HeatMap(lines []string, threshold int, ignoreList []string) []Change {
+func HeatMap(lines []string, threshold int, reverse bool, ignoreList []string) []Change {
 	heatMap := make(map[string]int)
 
 	for _, line := range lines {
@@ -34,6 +35,13 @@ func HeatMap(lines []string, threshold int, ignoreList []string) []Change {
 			Path:  key,
 		})
 	}
+
+	sort.Slice(changes, func(i, j int) bool {
+		if reverse {
+			return changes[i].Count > changes[j].Count
+		}
+		return changes[i].Count < changes[j].Count
+	})
 
 	return changes
 }
