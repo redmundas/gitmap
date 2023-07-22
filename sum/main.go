@@ -38,7 +38,13 @@ func HeatMap(lines []string, threshold int, reverse bool, ignoreList []string) [
 
 	sort.Slice(changes, func(i, j int) bool {
 		if reverse {
+			if changes[i].Count == changes[j].Count {
+				return changes[i].Path > changes[j].Path
+			}
 			return changes[i].Count > changes[j].Count
+		}
+		if changes[i].Count == changes[j].Count {
+			return changes[i].Path < changes[j].Path
 		}
 		return changes[i].Count < changes[j].Count
 	})
